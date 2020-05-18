@@ -6,6 +6,9 @@ module Eneroth
 
     # Dialog for setting size of selected image.
     module Dialog
+      # Message for invalid selection.
+      INVALID_SEL = "Select an Image or textured Face."
+
       @scale = Scale.new("1:100")
       @dpi = 300
 
@@ -49,17 +52,18 @@ module Eneroth
       # @api
       # Expected to be called when the selection changes.
       def self.on_selection_change
-        # TODO: Feedback for invalid selection.
         if ObjectSize.valid?
           @scale = Scale.new(ObjectSize.dpi / @dpi)
           update_dialog
+        else
+          @dialog.execute_script("displayMessage(#{INVALID_SEL.inspect});")
         end
       end
 
       # Private
 
       def self.attach_callbacks
-        @dialog.add_action_callback("ready") { update_dialog }
+        @dialog.add_action_callback("ready") { on_selection_change }
         @dialog.add_action_callback("onChange") do |_, scale, dpi|
           on_change(scale, dpi)
         end
