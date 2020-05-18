@@ -7,7 +7,7 @@ module Eneroth
     # Dialog for setting size of selected image.
     module Dialog
       # Message for invalid selection.
-      INVALID_SEL = "Select an Image or textured Face."
+      INVALID_SEL = "No Image selected"
 
       @scale = Scale.new("1:100")
       @dpi = 300

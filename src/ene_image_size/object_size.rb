@@ -6,34 +6,22 @@ module Eneroth
       #
       # @return [Boolean]
       def self.valid?
-        return unless Sketchup.active_model.selection.size == 1
+        return false unless Sketchup.active_model.selection.size == 1
 
-        entity = Sketchup.active_model.selection.first
-        return true if entity.is_a?(Sketchup::Image)
-        return false unless entity.is_a?(Sketchup::Face)
-
-        !!entity.material.texture
+        Sketchup.active_model.selection.first.is_a?(Sketchup::Image)
       end
 
       def self.dpi
         entity = Sketchup.active_model.selection.first
-        case entity
-        when Sketchup::Image
-          entity.pixelwidth / entity.width
-        when Sketchup::Face
-          # TODO: Get texture size...
-        end
+
+        entity.pixelwidth / entity.width
       end
 
       def self.dpi=(dpi)
         entity = Sketchup.active_model.selection.first
-        case entity
-        when Sketchup::Image
-          entity.width = entity.pixelwidth * dpi
-          entity.height = entity.pixelheight * dpi
-        when Sketchup::Face
-          # TODO: Set texture size...
-        end
+
+        entity.width = entity.pixelwidth * dpi
+        entity.height = entity.pixelheight * dpi
       end
     end
   end
