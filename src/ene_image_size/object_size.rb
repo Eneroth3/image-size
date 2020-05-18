@@ -6,8 +6,9 @@ module Eneroth
       #
       # @return [Boolean]
       def self.valid?
-        entity = Sketchup.active_model.selection.first
+        return unless Sketchup.active_model.selection.size == 1
 
+        entity = Sketchup.active_model.selection.first
         return true if entity.is_a?(Sketchup::Image)
         return false unless entity.is_a?(Sketchup::Face)
 

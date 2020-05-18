@@ -2,6 +2,7 @@ module Eneroth
   module ImageSize
     Sketchup.require "#{PLUGIN_ROOT}/vendor/scale"
     Sketchup.require "#{PLUGIN_ROOT}/object_size"
+    Sketchup.require "#{PLUGIN_ROOT}/observers"
 
     # Dialog for setting size of selected image.
     module Dialog
@@ -18,6 +19,7 @@ module Eneroth
           attach_callbacks
           @dialog.show
         end
+        @observer = SelectionObserver.new { on_selection_change }
       end
 
       # Hide dialog.
@@ -47,11 +49,11 @@ module Eneroth
       # @api
       # Expected to be called when the selection changes.
       def self.on_selection_change
-        # TODO: Call from observer.
         # TODO: Feedback for invalid selection.
-        # Set scale from selection size.
-        @scale = Scale.new(ObjectSize.dpi / @dpi)
-        update_dialog
+        if ObjectSize.valid?
+          @scale = Scale.new(ObjectSize.dpi / @dpi)
+          update_dialog
+        end
       end
 
       # Private
@@ -61,6 +63,7 @@ module Eneroth
         @dialog.add_action_callback("onChange") do |_, scale, dpi|
           on_change(scale, dpi)
         end
+        @dialog.set_on_closed { @observer.release }
       end
       private_class_method :attach_callbacks
 
