@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>TITLE</title>
+    <script src="vendor/dialogs/jquery-1.12.4.js"></script>
+    <script src="vendor/dialogs/controls.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/dialogs/style.css">
+    <script>
+      var loaded = false;
+
+      // Disable context menu.
+      window.oncontextmenu = function (e) { e.preventDefault() };
+      window.onerror = function(message, source, lineno, colno, error) {
+        alert("source:" + lineno + ":" + colno + "\n\n" + message);
+      }
+
+      var scaleField;
+      var dpiField;
+
+      function updateFields(scale, dpi) {
+        if (!loaded) return;
+
+        scaleField.value = scale;
+        dpiField.value = dpi;
+
+        markAsValid(scaleField);
+        markAsValid(dpiField);
+      }
+
+      function markAsInvalid(field) {
+        field.classList.add("invalid");
+      }
+
+      function markAsValid(field) {
+        field.classList.remove("invalid");
+      }
+
+      window.onload = function() {
+        scaleField = document.getElementById('scale');
+        dpiField = document.getElementById('dpi');
+
+        scaleField.onchange = scaleField.onkeyup = onWrite;
+        dpiField.onchange = dpiField.onkeyup = onWrite;
+
+        loaded = true;
+
+        sketchup.ready();
+      };
+
+      function onWrite(event) {
+        sketchup.onChange(scaleField.value, dpiField.value);
+      }
+    </script>
+    <style>
+      table {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        table-layout: fixed;
+      }
+      td {
+        padding: 2px;
+      }
+      tr td:first-child {
+        text-align: right;
+        width: 33%;
+      }
+      input[type=text], button {
+        width: 100%;
+        margin: 0;
+      }
+      .invalid {
+        border-color: #DF191B !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dlg-content-area">
+      <table>
+        <tr title="E.g. 1:100.">
+          <td><label for="scale">Scale</label></td>
+          <td><input id="scale" type="text" /></td>
+        </tr>
+        <tr title="Image resolution in dots per inch, e.g. 300.">
+          <td><label for="dpi">DPI</label></td>
+          <td><input id="dpi" type="text" /></td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
