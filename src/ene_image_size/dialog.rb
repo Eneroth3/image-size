@@ -77,8 +77,8 @@ module Eneroth
           preferences_key: name, # Full module name
           resizable:       false,
           style:           UI::HtmlDialog::STYLE_DIALOG,
-          width:           230,
-          height:          140,
+          width:           220,
+          height:          220,
           left:            200,
           top:             100
         )

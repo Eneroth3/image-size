@@ -5,7 +5,7 @@
     <title>TITLE</title>
     <script src="vendor/dialogs/jquery-1.12.4.js"></script>
     <script src="vendor/dialogs/controls.js"></script>
-    <link rel="stylesheet" type="text/css" href="vendor/dialogs/style.css">
+    <link rel="stylesheet" href="https://modus.trimble.com/css/modus.min-0.9.5.css">
     <script>
       var loaded = false;
 
@@ -27,22 +27,22 @@
         markAsValid(scaleField);
         markAsValid(dpiField);
 
-        document.getElementsByTagName('table')[0].style.display = '';
+        document.getElementsByTagName('form')[0].style.display = '';
         document.getElementById('message').style.display = 'none';
       }
 
       function displayMessage(message) {
-        document.getElementsByTagName('table')[0].style.display = 'none';
+        document.getElementsByTagName('form')[0].style.display = 'none';
         document.getElementById('message').style.display = '';
         document.getElementById('message').innerHTML = message;
       }
 
       function markAsInvalid(field) {
-        field.classList.add("invalid");
+        field.classList.add("is-invalid");
       }
 
       function markAsValid(field) {
-        field.classList.remove("invalid");
+        field.classList.remove("is-invalid");
       }
 
       window.onload = function() {
@@ -61,46 +61,18 @@
         sketchup.onChange(scaleField.value, dpiField.value);
       }
     </script>
-    <style>
-      table {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        table-layout: fixed;
-      }
-      td {
-        padding: 2px;
-      }
-      tr td:first-child {
-        text-align: right;
-        width: 33%;
-      }
-      input[type=text], button {
-        width: 100%;
-        margin: 0;
-      }
-      .invalid {
-        border-color: #DF191B !important;
-      }
-      #message {
-        font-style: italic;
-        opacity: 0.6;
-      }
-    </style>
   </head>
-  <body>
-    <div class="dlg-content-area">
-      <table style="display: none;">
-        <tr title="E.g. 1:100.">
-          <td><label for="scale">Scale</label></td>
-          <td><input id="scale" type="text" /></td>
-        </tr>
-        <tr title="Image resolution in dots per inch, e.g. 300.">
-          <td><label for="dpi">DPI</label></td>
-          <td><input id="dpi" type="text" /></td>
-        </tr>
-      </table>
-      <div id="message" style="display: none;"></div>
-    </div>
+  <body class="m-3">
+    <form id="dlg-content-area">
+      <div class="form-group">
+        <label for="scale">Scale</label>
+        <input class="form-control" id="scale" placeholder="1:100">
+      </div>
+      <div class="form-group">
+        <label for="dpi">DPI</label>
+        <input class="form-control" id="dpi" placeholder="300">
+      </div>
+    </form>
+    <p id="message" style="display: none;"></p>
   </body>
 </html>
