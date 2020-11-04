@@ -10,7 +10,7 @@
       var loaded = false;
 
       // Disable context menu.
-      // window.oncontextmenu = function (e) { e.preventDefault() };
+      window.oncontextmenu = function (e) { e.preventDefault() };
       window.onerror = function(message, source, lineno, colno, error) {
         alert("source:" + lineno + ":" + colno + "\n\n" + message);
       }
